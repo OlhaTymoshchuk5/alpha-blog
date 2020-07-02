@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+    #self referecing each obleject of this class. To target each object!!!
+    before_save { self.email = email.downcase }
     has_many :articles
     validates :username, presence: true, 
     uniqueness: { case_sensitive: false }, 
