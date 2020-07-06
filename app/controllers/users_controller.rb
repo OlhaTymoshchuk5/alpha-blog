@@ -1,6 +1,8 @@
 class UsersController < ApplicationController
     #to run ony in spesified methods
-    before_action :set_user, only: [:show, :edit, :update]
+    before_action :set_user, only: [:show, :edit, :update, :destroy]
+    before_action :require_user, only: [:edit, :update]
+    before_action :require_same_user, only: [:edit, :update, :destroy]
 
     def show
         
@@ -39,6 +41,14 @@ class UsersController < ApplicationController
           render 'new'
         end
       end
+
+      def destroy
+        @user.destroy
+        #if you delete the user with the current session id, the app will through the error, so you need to clear the session
+        session[:user_id] = nil
+        flash[:notice] = "Account and all associated articles successfully deleted"
+        redirect_to articles_path
+      end
     
       private
       def user_params
@@ -47,6 +57,13 @@ class UsersController < ApplicationController
 
       def set_user
         @user = User.find(params[:id])
+      end
+
+      def require_same_user
+        if current_user != @user
+          flash[:alert] = "You can only edit your own account"
+          redirect_to @user
+        end
       end
   
   end
