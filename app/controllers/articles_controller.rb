@@ -6,7 +6,7 @@ class ArticlesController < ApplicationController
     end
 
     def index
-         @articles = Article.all
+         @articles = Article.paginate(page: params[:page], per_page: 5)
     end
 
     def new
@@ -20,7 +20,7 @@ class ArticlesController < ApplicationController
     def create
         #@article is an instance variable
         @article = Article.new(article_params)
-        @article.user = User.first
+        @article.user = current_user
         #render plain: @article.inspect
         if @article.save
             #common key is :notice and :alert
