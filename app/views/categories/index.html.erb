@@ -4,6 +4,10 @@
   <%= will_paginate @categories, :container => false %>
 </div>
 
+<div class="apple_pagination">
+    <%= will_paginate @articles, :container => false %>
+</div>
+
 <div class="container">
   <% @categories.each do |category| %>
     <div class="row justify-content-md-center">
@@ -25,3 +29,7 @@
 <div class="flickr_pagination mb-4">
   <%= will_paginate @categories, :container => false %>
 </div> 
+
+<div class="apple_pagination">
+    <%= will_paginate @articles, :container => false %>
+</div>
